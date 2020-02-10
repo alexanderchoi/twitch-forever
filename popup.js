@@ -47,18 +47,13 @@ function getNewStream() {
       const users = json.data;
       return hasExtension(users);
     })
-
-    // let userID = users[0].user_id;
-    // if (hasExtension(userID)) {
-    //   console.log(`Sucess: ${userID} is running extension ${extension}`);
-    // } else {
-    //   console.log(`Error: ${userID} isn't running extension ${extension}`);
-    // }
+    .then(res => {
+      console.log(res);
+    })
     .catch(error => console.log(error));
 }
 
 function hasExtension(users) {
-  // console.log(`function hasExtension executed with id ${userID}`);
   let foundUser = "";
   for (i = 0; i < users.length; i++) {
     let userID = users[i].user_id;
@@ -73,8 +68,7 @@ function hasExtension(users) {
         for (key in overlays) {
           if (overlays[key].name === extension) {
             console.log(`user ${userID} hasExtension ${extension}, success!`);
-            // foundUser = userID;
-            // window.location.href = `https://www.twitch.tv/${userID}`;
+            redirectToStream(userID);
             break;
           }
         }
@@ -85,7 +79,17 @@ function hasExtension(users) {
   return foundUser;
 }
 
-function redirectToUserStream(userID) {
-  // window.location.href = "https://www.twitch.tv/31fox";
-  console.log("extension found");
+function redirectToStream(userID) {
+  console.log("redirecting");
+  let userUrl = `https://www.twitch.tv/`;
+  let url = `https://api.twitch.tv/helix/streams/metadata?user_id=${userID}`;
+  fetch(url, params)
+    .then(res => {
+      return res.json();
+    })
+    .then(json => {
+      userUrl += json.data[0].user_name;
+      window.location.href = userUrl;
+    })
+    .catch(error => console.log(error));
 }
