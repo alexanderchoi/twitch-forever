@@ -45,41 +45,44 @@ function getNewStream() {
     .then(json => {
       console.log(json.data);
       const users = json.data;
-      // for (i = 0; i < users.length; i++) {
-      //   let userID = users[i].user_id;
-      //   if (hasExtension(userID)) {
-      //     console.log("has extensions");
-      //   }
-      // }
-      let userID = users[0].user_id;
-      if (hasExtension(userID)) {
-        console.log("greatest success");
-      } else {
-        console.log("booo", userID);
-      }
+      return hasExtension(users);
     })
+
+    // let userID = users[0].user_id;
+    // if (hasExtension(userID)) {
+    //   console.log(`Sucess: ${userID} is running extension ${extension}`);
+    // } else {
+    //   console.log(`Error: ${userID} isn't running extension ${extension}`);
+    // }
     .catch(error => console.log(error));
 }
 
-function hasExtension(userID) {
+function hasExtension(users) {
   // console.log(`function hasExtension executed with id ${userID}`);
-  const url = `https://api.twitch.tv/helix/users/extensions?user_id=${userID}`;
-  fetch(url, params)
-    .then(res => {
-      return res.json();
-    })
-    .then(json => {
-      console.log(json.data);
-      const overlays = json.data.overlay;
-      for (key in overlays) {
-        if (overlays[key].name === extension) {
-          console.log(`user ${userID} has extension ${extension}, success!`);
-          return true;
+  let foundUser = "";
+  for (i = 0; i < users.length; i++) {
+    let userID = users[i].user_id;
+    var url = `https://api.twitch.tv/helix/users/extensions?user_id=${userID}`;
+    fetch(url, params)
+      .then(res => {
+        return res.json();
+      })
+      .then(json => {
+        console.log(json.data);
+        const overlays = json.data.overlay;
+        for (key in overlays) {
+          if (overlays[key].name === extension) {
+            console.log(`user ${userID} hasExtension ${extension}, success!`);
+            // foundUser = userID;
+            // window.location.href = `https://www.twitch.tv/${userID}`;
+            break;
+          }
         }
-      }
-      return false;
-    })
-    .catch(error => console.log(error));
+        return false;
+      })
+      .catch(error => console.log(error));
+  }
+  return foundUser;
 }
 
 function redirectToUserStream(userID) {
