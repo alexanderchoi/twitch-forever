@@ -4,7 +4,7 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://www.twitch.tv/*"],
       "js": ["content.js"]
     }
   ],
@@ -14,5 +14,8 @@
   "background": {
     "scripts": ["background.js"]
   },
-  "permissions": ["tabs"]
+  "permissions": ["tabs"],
+  "icons": {
+    "128": "icon128.png"
+  }
 }
