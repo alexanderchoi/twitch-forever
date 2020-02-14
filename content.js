@@ -1,5 +1,4 @@
 console.log("content.js executed");
-alert("content js");
 const clientid = "hevwkj5uuxx9v4e5hshn3an8k0hvl5";
 const params = {
   headers: {
