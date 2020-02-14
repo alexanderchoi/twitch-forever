@@ -1,4 +1,5 @@
 console.log("content.js executed");
+alert("content js");
 const clientid = "hevwkj5uuxx9v4e5hshn3an8k0hvl5";
 const params = {
   headers: {
@@ -11,7 +12,9 @@ const extension = `Waystone Overlay`;
 
 // Check if stream is offline or isn't using extension => get new stream
 setInterval(function() {
-  console.log("set interval executed every 5s");
+  console.log(
+    "set interval executed every 5s %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+  );
 }, 5000);
 
 // set timer for 15 minutes

@@ -7,10 +7,6 @@ import {
   redirectToStream
 } from "./content.js";
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-    getNewStream();
-  },
-  false
-);
+document.addEventListener("DOMContentLoaded", function() {
+  getNewStream();
+});
