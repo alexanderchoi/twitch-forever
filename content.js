@@ -1,4 +1,4 @@
-console.log("content.js executed");
+// console.log("content.js executed");
 const clientid = "hevwkj5uuxx9v4e5hshn3an8k0hvl5";
 const params = {
   headers: {
@@ -9,19 +9,14 @@ const params = {
 // Declare the extension(overlay) you want to search for
 const extension = `Waystone Overlay`;
 
-// Check if stream is offline or isn't using extension => get new stream
-setInterval(function() {
-  console.log(
-    "set interval executed every 5s %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-  );
+// Check if stream is offline => get new stream
+setInterval(async function() {
+  console.log("*** set interval function - 5 seconds ***");
+  const url = window.location.href;
+  const currentStreamerID = url.slice(url.indexOf(".tv") + 4);
+  const isOffline = await checkIfOffline(currentStreamerID);
+  if (isOffline) getNewStream();
 }, 5000);
-
-// set timer for 15 minutes
-// check if stream is offline
-//   if offline, get new stream
-
-// check if waystone is enabled on stream
-//   if waystone is disabled, get new stream
 
 function getNewStream() {
   const url = "https://api.twitch.tv/helix/streams?game_id=491403";
@@ -70,11 +65,19 @@ function redirectToStream(userID) {
     .catch(error => console.log(error));
 }
 
-export {
-  clientid,
-  params,
-  extension,
-  getNewStream,
-  findUserWithExtension,
-  redirectToStream
-};
+async function checkIfOffline(userID) {
+  // userID = "fakeUserIDForTestingOfflineStream";
+  const url = `https://api.twitch.tv/helix/streams?user_login=${userID};`;
+  const response = await fetch(url, params);
+  if (!response.ok) throw oops;
+  return (await response.json()).data.length === 0;
+}
+
+// export {
+//   clientid,
+//   params,
+//   extension,
+//   getNewStream,
+//   findUserWithExtension,
+//   redirectToStream
+// };
