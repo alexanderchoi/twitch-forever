@@ -24,6 +24,7 @@ function getNewStream() {
       return res.json();
     })
     .then(json => {
+      console.log(json);
       const users = json.data;
       return findUserWithExtension(users);
     })
@@ -39,6 +40,7 @@ function findUserWithExtension(users) {
         return res.json();
       })
       .then(json => {
+        console.log(json);
         const overlays = json.data.overlay;
         for (let key in overlays) {
           if (overlays[key].name === extension) {

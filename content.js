@@ -9,13 +9,13 @@ const params = {
 // Declare the extension(overlay) you want to search for
 const extension = `Waystone Overlay`;
 
-// Check if stream is offline or isn't using extension => get new stream
-setInterval(function() {
-  console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+// Check if stream is offline => get new stream
+setInterval(async function() {
+  console.log("*** set interval function - 5 seconds ***");
   const url = window.location.href;
   const currentStreamerID = url.slice(url.indexOf(".tv") + 4);
-  isStreamOffline(currentStreamerID);
-  isUsingExtension(currentStreamerID);
+  const isOffline = await checkIfOffline(currentStreamerID);
+  if (isOffline) getNewStream();
 }, 5000);
 
 function getNewStream() {
@@ -65,6 +65,14 @@ function redirectToStream(userID) {
     .catch(error => console.log(error));
 }
 
+async function checkIfOffline(userID) {
+  // userID = "fakeUserIDForTestingOfflineStream";
+  const url = `https://api.twitch.tv/helix/streams?user_login=${userID};`;
+  const response = await fetch(url, params);
+  if (!response.ok) throw oops;
+  return (await response.json()).data.length === 0;
+}
+
 // export {
 //   clientid,
 //   params,
@@ -73,42 +81,3 @@ function redirectToStream(userID) {
 //   findUserWithExtension,
 //   redirectToStream
 // };
-
-function isStreamOffline(userID) {
-  // userID = "asdfasdfasf";
-  const url = `https://api.twitch.tv/helix/streams?user_login=${userID};`;
-  fetch(url, params)
-    .then(res => {
-      return res.json();
-    })
-    .then(json => {
-      console.log(json.data);
-      if (json.data.length === 0) {
-        getNewStream();
-      } else {
-        console.log("online!");
-      }
-    })
-    .catch(error => console.log(error));
-}
-
-function isUsingExtension(userID) {
-  const url = `https://api.twitch.tv/helix/users/extensions?user_id=${userID}`;
-  fetch(url, params)
-    .then(res => {
-      return res.json();
-    })
-    .then(json => {
-      const overlays = json.data.overlay;
-      let foundExtension = false;
-      for (let key in overlays) {
-        if (overlays[key].name === extension) {
-          foundExtension = true;
-        }
-      }
-      if (!foundExtension) {
-        getNewStream();
-      }
-    })
-    .catch(error => console.log(error));
-}
