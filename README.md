@@ -1,5 +1,5 @@
 # twitch-forever
 
-twitch-forever is a specialized chrome extension tool that allows users to continually watch online twitch streams of Eternal, a strategic online card game, and redirecting to a new stream automatically if the current stream goes offline. The purpose of this is to continually receive free in-game drops from watching streams, as provided by the twitch extension <a href='https://dashboard.twitch.tv/extensions/0qr7fa6llzn4txgnfgb8ipeksd5v24'>Waystone Overlay</a>.
+twitch-forever is a specialized chrome extension tool that allows users to continually watch online twitch streams of Eternal, a strategic online card game, and redirects to a new stream automatically if the current stream goes offline. The purpose of this is to passively receive free in-game drops from watching streams, as provided by the twitch extension <a href='https://dashboard.twitch.tv/extensions/0qr7fa6llzn4txgnfgb8ipeksd5v24'>Waystone Overlay</a>.
 
 This app is built with the <a href='https://dev.twitch.tv/docs/api'>Twitch API</a>.
